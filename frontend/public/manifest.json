@@ -1,0 +1,8 @@
+{
+  "short_name": "Zap",
+  "name": "Zap - AI Accounting",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#4a6cf7",
+  "background_color": "#ffffff"
+}

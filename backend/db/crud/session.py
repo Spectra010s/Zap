@@ -25,3 +25,12 @@ def create_session(db: Session, user_id: int, token: str, expires_at: datetime):
     db.refresh(session)
     return session
 
+
+def delete_session_by_token(db: Session, token: str):
+    session = db.query(SessionModel).filter(SessionModel.token == token).first()
+    if session:
+        db.delete(session)
+        db.commit()
+        return True
+    return False
+

@@ -97,8 +97,9 @@ class PromptCompiler:
 
         col_type = self.data['data']['columns'][col_idx]['type']
         converted_value = self._convert_value(new_value, col_type)
-
-        rows[row][col_idx] = converted_value
+        
+        # Update the specific cell
+        self.data['data']['rows'][row][col_idx] = converted_value
         return f"Updated cell at ({row}, {col_name}) to '{converted_value}'"
 
     def _add_column(self, col_name: str) -> str:

@@ -1,4 +1,4 @@
-from fastapi import Depends, Response, APIRouter
+from fastapi import Depends, Response, APIRouter, HTTPException
 from sqlalchemy.orm import Session
 from db.session import get_db
 from auth import security, session_manager
@@ -6,6 +6,9 @@ from db import crud
 from pydantic import BaseModel, EmailStr
 from datetime import datetime, timedelta
 from core.config import settings
+from fastapi.security import OAuth2PasswordBearer
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 router = APIRouter()
 
@@ -42,4 +45,18 @@ def login(data: LoginSchema, response: Response, db: Session = Depends(get_db)):
 
     crud.session.create_session(db, user.id, token, expires_at)
     session_manager.set_session_cookie(response, token)
-    return {"msg": "Login successful"}
+    
+    return {
+        "msg": "Login successful",
+        "access_token": token,
+        "token_type": "bearer"
+    }
+
+@router.post("/logout")
+def logout(response: Response, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    crud.session.delete_session_by_token(db, token)
+    
+    response = Response(content={"msg": "Logout successful"}.model_dump_json(), media_type="application/json")
+    response.delete_cookie(settings.SESSION_COOKIE_NAME)
+    
+    return response

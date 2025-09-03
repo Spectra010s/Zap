@@ -18,7 +18,8 @@ def set_session_cookie(response: Response, token: str):
         expires=expire.strftime("%a, %d %b %Y %H:%M:%S GMT"),
         samesite="lax",
         path="/",
-        secure=False
+        secure=settings.ENVIRONMENT == "production", 
+        domain=settings.COOKIE_DOMAIN if hasattr(settings, 'COOKIE_DOMAIN') else None
     )
 
 def delete_session_cookie(response: Response):

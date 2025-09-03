@@ -2,6 +2,8 @@
 venv/
 backend/.env
 backend/zap.db
+backend/tables.json
+backend/db/models/tables.json
 backend/__pycache__/
 *.pyc
 
