@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     SESSION_COOKIE_NAME: str = "session_token"
     COOKIE_DOMAIN: str = ""  
     API_ACTIVE_VERSION: int = 1
-    ENVIRONMENT: str = "development"
+    ENVIRONMENT: str = "production"
     DEBUG: bool = False
     GPT_TOKEN: str
     ASSEMBLYAI_API_KEY: str
